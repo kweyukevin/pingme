@@ -28,9 +28,12 @@
             <span class="navbar-brand mb-0 h1">@<%= current_user.username %></span>
           </div>
         </nav>
-          <% @room.messages.each do |message| %>
-            <%= render 'messages/message', message: message %>
-          <%end%>
+          
+          <div id="messages">
+            <% @room.messages.each do |message| %>
+              <%= render 'messages/message', message: message %>
+            <%end%>
+          </div>
           <div class="chat-box">
             <%= render 'messages/form', message: Message.new %>
           </div>
