@@ -26,7 +26,12 @@ class MessagesController < ApplicationController
     @message.user = current_user
 
     if @message.save
-      redirect_to request.referrer        
+      # The commented out option below was used to redirect the create controller request to the page that called it. We now replace it using action cable method below it
+      # redirect_to request.referrer        
+
+      html = render(partial: 'messages/message', locals: { message: @message})
+      ActionCable.server.broadcast("room_channel_#{@message.room_id}", {html: html})
+      # ActionCable.server.broadcast("chaiiiiiiiit_#{room}",{sent_by: 'Paul'})
     else
       format.html { render :new, status: :unprocessable_entity }
       format.json { render json: @message.errors, status: :unprocessable_entity }
