@@ -24,6 +24,7 @@ class MessagesController < ApplicationController
     @message = Message.new(message_params)
 
     @message.user = current_user
+    # debugger
 
     if @message.save
       # The commented out option below was used to redirect the create controller request to the page that called it. We now replace it using action cable method below it
@@ -32,11 +33,13 @@ class MessagesController < ApplicationController
       # html = render(partial: 'messages/message', locals: { message: @message})
       # ActionCable.server.broadcast("room_channel_#{@message.room_id}", {html: html})
 
+      # debugger
+      # @session_id = session_id[:user_id]
       #This line pushes the message to the send message job to be rendered in the rooms/index page
-      #SendMessageJob.perform_later(@message)
-      html = ApplicationController.render(partial: 'messages/message', locals: { message: @message})
-      ActionCable.server.broadcast("room_channel_#{@message.room_id}", {html: html})
-      #ActionCable.server.broadcast("room_channel_2", {html: @message.room_id})
+      SendMessageJob.perform_later(@message)
+      #logger.debug
+      #  html = ApplicationController.render(partial: 'messages/message', locals: { message: @message})
+      #  ActionCable.server.broadcast("room_channel_#{@message.room_id}", {html: html})
     else
       format.html { render :new, status: :unprocessable_entity }
       format.json { render json: @message.errors, status: :unprocessable_entity }
