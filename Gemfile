@@ -56,4 +56,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 #Gems below this line are installed by the developer
-# gem 'redis', '~> 3.3', '>= 3.3.1'
+# 
+group :production do
+  gem 'redis', '~> 3.3', '>= 3.3.1'
+end
