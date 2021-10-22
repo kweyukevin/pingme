@@ -25,7 +25,7 @@ development:
   <<: *default
   database: pingme_development
   username: pingme
-  password: '@complexity'
+  password: <%= ENV['PINGME_DEV_DATABASE_PASSWORD'] %>
   host: localhost
   port: 5432
 
